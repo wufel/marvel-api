@@ -1,7 +1,10 @@
 package com.wufel.playground.marvelapi.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.math.BigInteger;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Character extends Data {
     private BigInteger id;
     private String name;

@@ -4,7 +4,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.wufel.playground.marvelapi.domain.entity.Character;
-import com.wufel.playground.marvelapi.domain.entity.Thumbnail;
 import com.wufel.playground.marvelapi.infrastructure.GsonProvider;
 
 import java.math.BigDecimal;
@@ -17,8 +16,7 @@ public final class JsonMapperUtil {
     public static Character mapToCharacter(String jsonString) {
         JsonObject result = responseBodyToResultJsonArray(jsonString)
                 .get(0).getAsJsonObject();
-        Thumbnail thumbnail1 = GsonProvider.getInstance().fromJson(result.getAsJsonObject("thumbnail"), Thumbnail.class);
-        return new Character(result.get("id").getAsBigInteger(), result.get("name").getAsString(), result.get("description").getAsString(), thumbnail1);
+        return GsonProvider.getInstance().fromJson(result, Character.class);
     }
 
     public static Set<BigDecimal> mapToIdSet(String jsonString) {

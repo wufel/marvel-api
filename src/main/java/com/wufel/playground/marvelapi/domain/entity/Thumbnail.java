@@ -1,5 +1,8 @@
 package com.wufel.playground.marvelapi.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Thumbnail extends Data {
     private String path;
     private String extension;

@@ -17,8 +17,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.Set;
 
-import static com.wufel.playground.marvelapi.infrastructure.mappers.JsonMapperUtil.mapToCharacter;
-import static com.wufel.playground.marvelapi.infrastructure.mappers.JsonMapperUtil.mapToIdSet;
+import static com.wufel.playground.marvelapi.infrastructure.mappers.JsonMapperUtil.*;
 import static com.wufel.playground.marvelapi.rest.RestConfig.CHARACTER_DETAIL_CACHE;
 import static com.wufel.playground.marvelapi.rest.RestConfig.CHARACTER_ID_LIST_CACHE;
 

@@ -17,7 +17,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
-import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.containsString;
@@ -34,13 +34,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(MarvelApiController.class)
 class MarvelApiControllerTests {
 
-    private static final String CHARACTER_DETAIL_MOCK_RETURN = "{\"data\":{\"results\":[{\"thumbnail\":{\"path\":\"/a/path\",\"extension\":\"jpg\"},\"id\":0,\"name\":\"something\",\"description\":\"nothing\"}]}}";
-    private static final String CHARACTERS_MOCK_RETURN = "{\"data\":{\"results\":[{\"id\":1},{\"id\":2},{\"id\":3},{\"id\":4}]}}";
-    private static final MockHttpServletRequestBuilder CHARACTER_DETAIL_REQUEST_BUILDER =
-            request(HttpMethod.GET, "/characters/-1")
+    public static final String CHARACTER_DETAIL_MOCK_RETURN = "{\"data\":{\"results\":[{\"thumbnail\":{\"path\":\"/a/path\",\"extension\":\"jpg\"},\"id\":0,\"name\":\"something\",\"description\":\"nothing\"}]}}";
+    public static final String CHARACTERS_MOCK_RETURN = "{\"data\":{\"results\":[{\"id\":1},{\"id\":2},{\"id\":3},{\"id\":4}]}}";
+    public static final MockHttpServletRequestBuilder CHARACTER_DETAIL_REQUEST_BUILDER =
+            request(HttpMethod.GET, "/characters/1")
                     .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
                     .accept(APPLICATION_JSON);
-    private static final MockHttpServletRequestBuilder CHARACTERS_REQUEST_BUILDER =
+
+    public static final MockHttpServletRequestBuilder CHARACTERS_REQUEST_BUILDER =
             request(HttpMethod.GET, "/characters")
                     .header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
                     .accept(APPLICATION_JSON);
@@ -53,7 +54,7 @@ class MarvelApiControllerTests {
     @Test
     public void testGettingCharacterDetailSuccessfully() throws Exception {
         when(restCommunicationService.makeGetRequest(any())).thenReturn(ResponseEntity.of(Optional.of(CHARACTER_DETAIL_MOCK_RETURN)));
-        Character expectedCharacter = new Character(new BigDecimal(0), "something", "nothing", new Thumbnail("/a/path", "jpg"));
+        Character expectedCharacter = new Character(BigInteger.valueOf(0), "something", "nothing", new Thumbnail("/a/path", "jpg"));
         String expectedJsonString = GsonProvider.getInstance().toJson(expectedCharacter);
         mockMvc.perform(CHARACTER_DETAIL_REQUEST_BUILDER)
                 .andExpect(status().isOk())

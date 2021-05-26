@@ -14,6 +14,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.Map;
 
 import static com.wufel.playground.marvelapi.rest.MarvelApiKeyConfig.PRIVATE_KEY;
 import static com.wufel.playground.marvelapi.rest.MarvelApiKeyConfig.PUBLIC_KEY;
@@ -36,19 +38,29 @@ public class MarvelRestCommunication {
     }
 
     public ResponseEntity<String> makeGetRequest(String url) {
+        return makeGetRequest(url, Collections.emptyMap());
+    }
+
+    public ResponseEntity<String> makeGetRequest(String url, Map<String, String> queryParams) {
+        //header generation
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
+
+        //key hash preparation
         String time = LocalDateTime.now().toString();
         String md5Hash = DigestUtils.md5DigestAsHex(time.concat(privateKey).concat(publicKey).getBytes(StandardCharsets.UTF_8));
-        String uri = UriComponentsBuilder.fromHttpUrl(url)
+
+        //uri builder
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(url)
                 .queryParam("ts", time)
                 .queryParam("apikey", publicKey)
-                .queryParam("hash", md5Hash)
-                .toUriString();
-
-        HttpEntity<?> entity = new HttpEntity<>(headers);
+                .queryParam("hash", md5Hash);
+        queryParams.forEach(uriBuilder::queryParam);
+        String uri  = uriBuilder.toUriString();
         LOG.info("request ready to fire {}", uri);
 
+        //execution
+        HttpEntity<?> entity = new HttpEntity<>(headers);
         try {
             return restOperations.exchange(
                     uri,

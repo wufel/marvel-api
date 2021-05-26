@@ -15,8 +15,11 @@ public class MarvelApiKeyConfig {
     public static final String PUBLIC_KEY = "PUBLIC_KEY";
     public static final String PRIVATE_KEY = "PRIVATE_KEY";
 
-    @Value("${marvel.api.key.file.path}")
-    private String apiKeyFilePath;
+    private final String apiKeyFilePath;
+
+    public MarvelApiKeyConfig(@Value("${marvel.api.key.file.path}") String apiKeyFilePath) {
+        this.apiKeyFilePath = apiKeyFilePath;
+    }
 
     private ApiKeys getApiKeys() throws FileNotFoundException {
         FileReader reader = new FileReader(apiKeyFilePath);

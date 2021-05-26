@@ -1,25 +1,25 @@
 package com.wufel.playground.marvelapi.domain.entity;
 
-import java.math.BigDecimal;
+import java.math.BigInteger;
 
 public class Character extends Data {
-    private BigDecimal id;
+    private BigInteger id;
     private String name;
     private String description;
     private Thumbnail thumbnail;
 
-    public Character(BigDecimal id, String name, String description, Thumbnail thumbnail) {
+    public Character(BigInteger id, String name, String description, Thumbnail thumbnail) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.thumbnail = thumbnail;
     }
 
-    public BigDecimal getId() {
+    public BigInteger getId() {
         return id;
     }
 
-    public void setId(BigDecimal id) {
+    public void setId(BigInteger id) {
         this.id = id;
     }
 

@@ -18,7 +18,7 @@ public final class JsonMapperUtil {
         JsonObject result = responseBodyToResultJsonArray(jsonString)
                 .get(0).getAsJsonObject();
         Thumbnail thumbnail1 = GsonProvider.getInstance().fromJson(result.getAsJsonObject("thumbnail"), Thumbnail.class);
-        return new Character(result.get("id").getAsBigDecimal(), result.get("name").getAsString(), result.get("description").getAsString(), thumbnail1);
+        return new Character(result.get("id").getAsBigInteger(), result.get("name").getAsString(), result.get("description").getAsString(), thumbnail1);
     }
 
     public static Set<BigDecimal> mapToIdSet(String jsonString) {
